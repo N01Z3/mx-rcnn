@@ -1,7 +1,30 @@
 import numpy as np
 from easydict import EasyDict as edict
 
+
 config = edict()
+
+config.AUGMENTATION = edict()
+# all aug until ~30
+config.AUGMENTATION.PARAMS = {"geom_prob": 0.8,
+                              "angle": (0, 360),
+                              "shear": (0, 0),
+                              "scale": (0.7, 1, 1.4),
+                              "flip_h": 1,
+                              "flip_v": 1,
+                              "color_prob": 0,
+                              "blur": (0, 1.1),
+                              "noise": (0, 0),
+                              "add_s": (0, 0),
+                              "add_v": (0, 0),
+                              "multiply_s": (1, 1),
+                              "multiply_v": (1, 1),
+                              "contrast": (1, 1),
+                              "crop": True,
+                              "crop_size": (1000, 1000),
+                              "iou_threshold": 0.6}
+
+config.AUGMENTATION.N_ATTEMPTS = 10
 
 # network related params
 config.PIXEL_MEANS = np.array([103.939, 116.779, 123.68])
@@ -12,8 +35,8 @@ config.FIXED_PARAMS = ['conv1', 'conv2']
 config.FIXED_PARAMS_SHARED = ['conv1', 'conv2', 'conv3', 'conv4', 'conv5']
 
 # dataset related params
-config.NUM_CLASSES = 21
-config.SCALES = [(600, 1000)]  # first is scale (the shorter side); second is max size
+config.NUM_CLASSES = 5
+config.SCALES = [(2000, 2000)]  # first is scale (the shorter side); second is max size
 config.ANCHOR_SCALES = (8, 16, 32)
 config.ANCHOR_RATIOS = (0.5, 1, 2)
 config.NUM_ANCHORS = len(config.ANCHOR_SCALES) * len(config.ANCHOR_RATIOS)
@@ -22,11 +45,10 @@ config.TRAIN = edict()
 
 # R-CNN and RPN
 # size of images for each device, 2 for rcnn, 1 for rpn and e2e
-config.TRAIN.BATCH_IMAGES = 2
-# e2e changes behavior of anchor loader and metric
-config.TRAIN.END2END = False
-# group images with similar aspect ratio
-config.TRAIN.ASPECT_GROUPING = True
+config.TRAIN.BATCH_IMAGES = 1
+config.TRAIN.END2END = True
+config.TRAIN.ASPECT_GROUPING = False
+config.TRAIN.BBOX_NORMALIZATION_PRECOMPUTED = False
 
 # R-CNN
 # rcnn rois batch size
@@ -70,7 +92,7 @@ config.TEST = edict()
 # use rpn to generate proposal
 config.TEST.HAS_RPN = False
 # size of images for each device
-config.TEST.BATCH_IMAGES = 1
+config.TEST.BATCH_IMAGES = 4
 
 # RPN proposal
 config.TEST.CXX_PROPOSAL = True
@@ -97,11 +119,11 @@ default.pretrained = 'model/vgg16'
 default.pretrained_epoch = 0
 default.base_lr = 0.001
 # default dataset
-default.dataset = 'PascalVOC'
-default.image_set = '2007_trainval'
-default.test_image_set = '2007_test'
-default.root_path = 'data'
-default.dataset_path = 'data/VOCdevkit'
+default.dataset = 'noaa_lions'
+default.image_set = 'Train'
+default.test_image_set = 'Val'
+default.root_path = '/home/aakuzin/dataset/'
+default.dataset_path = '/home/aakuzin/dataset/noaa_sealines'
 # default training
 default.frequent = 20
 default.kvstore = 'device'
@@ -148,6 +170,32 @@ dataset.coco.test_image_set = 'val2014'
 dataset.coco.root_path = 'data'
 dataset.coco.dataset_path = 'data/coco'
 dataset.coco.NUM_CLASSES = 81
+
+
+# dataset.noaa_lions = edict()
+# dataset.noaa_lions.dataset = 'noaa_lions'
+# dataset.noaa_lions.image_set = 'noaa_train'
+# dataset.noaa_lions.test_image_set = 'noaa_test'
+# dataset.noaa_lions.root_path = 'data'
+# dataset.noaa_lions.dataset_path = 'd:/patches'
+# dataset.noaa_lions.NUM_CLASSES = 5
+
+
+dataset = edict()
+dataset.noaa_lions = edict()
+dataset.noaa_lions.dataset = 'General'
+dataset.noaa_lions.image_set = 'Train'
+dataset.noaa_lions.test_image_set = 'Val'
+dataset.noaa_lions.root_path = "/home/aakuzin/dataset/noaa_sealines"
+dataset.noaa_lions.dataset_path = "/home/aakuzin/dataset/noaa_sealines"
+dataset.noaa_lions.CLASSES = ['__background__', 'adult_males','subadult_males','adult_females','juveniles','pups']
+dataset.noaa_lions.NUM_CLASSES = len(dataset.noaa_lions.CLASSES)
+dataset.noaa_lions.SCALES = [(1000, 1000)] # [(400, 400)]
+#dataset.noaa_lions.ANCHOR_SCALES = (4, 8, 16, 32)
+#dataset.noaa_lions.ANCHOR_RATIOS = (0.33, 0.5, 1, 2, 3)
+dataset.noaa_lions.ANCHOR_SCALES = (2, 4, 8, 16, 32)
+dataset.noaa_lions.ANCHOR_RATIOS = (0.5, 1, 2)
+dataset.noaa_lions.NUM_ANCHORS = len(dataset.noaa_lions.ANCHOR_SCALES) * len(dataset.noaa_lions.ANCHOR_RATIOS)
 
 
 def generate_config(_network, _dataset):
