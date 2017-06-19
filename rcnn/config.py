@@ -1,13 +1,12 @@
 import numpy as np
 from easydict import EasyDict as edict
 
-
 config = edict()
 
 config.AUGMENTATION = edict()
 # all aug until ~30
 config.AUGMENTATION.PARAMS = {"geom_prob": 0.8,
-                              "angle": (0, 360),
+                              "angle": (-20, 20),
                               "shear": (0, 0),
                               "scale": (0.7, 1, 1.4),
                               "flip_h": 1,
@@ -21,7 +20,7 @@ config.AUGMENTATION.PARAMS = {"geom_prob": 0.8,
                               "multiply_v": (1, 1),
                               "contrast": (1, 1),
                               "crop": True,
-                              "crop_size": (1000, 1000),
+                              "crop_size": (3000, 3000),
                               "iou_threshold": 0.6}
 
 config.AUGMENTATION.N_ATTEMPTS = 10
@@ -159,27 +158,6 @@ network.resnet.FIXED_PARAMS = ['conv0', 'stage1', 'gamma', 'beta']
 network.resnet.FIXED_PARAMS_SHARED = ['conv0', 'stage1', 'stage2', 'stage3', 'gamma', 'beta']
 
 # dataset settings
-dataset = edict()
-
-dataset.PascalVOC = edict()
-
-dataset.coco = edict()
-dataset.coco.dataset = 'coco'
-dataset.coco.image_set = 'train2014'
-dataset.coco.test_image_set = 'val2014'
-dataset.coco.root_path = 'data'
-dataset.coco.dataset_path = 'data/coco'
-dataset.coco.NUM_CLASSES = 81
-
-
-# dataset.noaa_lions = edict()
-# dataset.noaa_lions.dataset = 'noaa_lions'
-# dataset.noaa_lions.image_set = 'noaa_train'
-# dataset.noaa_lions.test_image_set = 'noaa_test'
-# dataset.noaa_lions.root_path = 'data'
-# dataset.noaa_lions.dataset_path = 'd:/patches'
-# dataset.noaa_lions.NUM_CLASSES = 5
-
 
 dataset = edict()
 dataset.noaa_lions = edict()
@@ -188,11 +166,11 @@ dataset.noaa_lions.image_set = 'Train'
 dataset.noaa_lions.test_image_set = 'Val'
 dataset.noaa_lions.root_path = "/home/aakuzin/dataset/noaa_sealines"
 dataset.noaa_lions.dataset_path = "/home/aakuzin/dataset/noaa_sealines"
-dataset.noaa_lions.CLASSES = ['__background__', 'adult_males','subadult_males','adult_females','juveniles','pups']
+dataset.noaa_lions.CLASSES = ['__background__', 'adult_males', 'subadult_males', 'adult_females', 'juveniles', 'pups']
 dataset.noaa_lions.NUM_CLASSES = len(dataset.noaa_lions.CLASSES)
-dataset.noaa_lions.SCALES = [(1000, 1000)] # [(400, 400)]
-#dataset.noaa_lions.ANCHOR_SCALES = (4, 8, 16, 32)
-#dataset.noaa_lions.ANCHOR_RATIOS = (0.33, 0.5, 1, 2, 3)
+dataset.noaa_lions.SCALES = [(3000, 3000)]  # [(400, 400)]
+# dataset.noaa_lions.ANCHOR_SCALES = (4, 8, 16, 32)
+# dataset.noaa_lions.ANCHOR_RATIOS = (0.33, 0.5, 1, 2, 3)
 dataset.noaa_lions.ANCHOR_SCALES = (2, 4, 8, 16, 32)
 dataset.noaa_lions.ANCHOR_RATIOS = (0.5, 1, 2)
 dataset.noaa_lions.NUM_ANCHORS = len(dataset.noaa_lions.ANCHOR_SCALES) * len(dataset.noaa_lions.ANCHOR_RATIOS)
@@ -209,4 +187,3 @@ def generate_config(_network, _dataset):
             config[k] = v
         elif k in default:
             default[k] = v
-
