@@ -31,11 +31,13 @@ def test_predictor(network, dataset, image_set, root_path, dataset_path,
     # load symbol and testing data
     if has_rpn:
         sym = eval('get_' + network + '_test')(num_classes=config.NUM_CLASSES, num_anchors=config.NUM_ANCHORS)
-        imdb = eval(dataset)(image_set, root_path, dataset_path, config.CLASSES)
+        imdb = eval(dataset)(image_set, root_path, dataset_path, ['__background__', 'adult_males', 'subadult_males', 'adult_females', 'juveniles',
+                                  'pups'])
         roidb = imdb.gt_roidb()
     else:
         sym = eval('get_' + network + '_rcnn_test')(num_classes=config.NUM_CLASSES)
-        imdb = eval(dataset)(image_set, root_path, dataset_path, config.CLASSES)
+        imdb = eval(dataset)(image_set, root_path, dataset_path, ['__background__', 'adult_males', 'subadult_males', 'adult_females', 'juveniles',
+                                  'pups'])
         gt_roidb = imdb.gt_roidb()
         roidb = eval('imdb.' + proposal + '_roidb')(gt_roidb)
 
