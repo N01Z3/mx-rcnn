@@ -20,15 +20,17 @@ from tqdm import tqdm
 import cPickle
 import copy
 
+os.environ['MXNET_BACKWARD_DO_MIRROR'] = '1'
+os.environ['MXNET_CUDNN_AUTOTUNE_DEFAULT'] = '0'
 
-epoch = 50
+epoch = 60
 thresh = 0.05
 
-symbol = "/data/dataset/train/resnet-101"
-network = "resnet"
-dataset = "car"
+symbol = "model/1800/vgg"
+network = "vgg"
+dataset = "noaa_lions"
 generate_config(network, dataset)
-with open("/data/dataset/val.txt") as f:
+with open("/home/aakuzin/dataset/noaa_sealines/Val.txt") as f:
     val = map(lambda x: os.path.join(default.dataset_path, "images", x.strip()), f.readlines())
 ims = [cv2.imread(i) for i in val[:]]
 
@@ -39,7 +41,7 @@ def predict():
         with open(name, 'rb') as fid:
             all_boxes = cPickle.load(fid)
     else:
-        all_boxes = test_predict(network, symbol, epoch, dataset, ims, stride=630, threshold=thresh)
+        all_boxes = test_predict(network, symbol, epoch, dataset, ims, stride=1200, threshold=thresh)
 
     return all_boxes
 

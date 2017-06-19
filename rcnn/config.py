@@ -20,7 +20,7 @@ config.AUGMENTATION.PARAMS = {"geom_prob": 0.8,
                               "multiply_v": (1, 1),
                               "contrast": (1, 1),
                               "crop": True,
-                              "crop_size": (3000, 3000),
+                              "crop_size": (1800, 1800),
                               "iou_threshold": 0.6}
 
 config.AUGMENTATION.N_ATTEMPTS = 10
@@ -89,7 +89,7 @@ config.TEST = edict()
 
 # R-CNN testing
 # use rpn to generate proposal
-config.TEST.HAS_RPN = False
+config.TEST.HAS_RPN = True
 # size of images for each device
 config.TEST.BATCH_IMAGES = 4
 
@@ -168,7 +168,7 @@ dataset.noaa_lions.root_path = "/home/aakuzin/dataset/noaa_sealines"
 dataset.noaa_lions.dataset_path = "/home/aakuzin/dataset/noaa_sealines"
 dataset.noaa_lions.CLASSES = ['__background__', 'adult_males', 'subadult_males', 'adult_females', 'juveniles', 'pups']
 dataset.noaa_lions.NUM_CLASSES = len(dataset.noaa_lions.CLASSES)
-dataset.noaa_lions.SCALES = [(3000, 3000)]  # [(400, 400)]
+dataset.noaa_lions.SCALES = [(1800, 1800)]  # [(400, 400)]
 # dataset.noaa_lions.ANCHOR_SCALES = (4, 8, 16, 32)
 # dataset.noaa_lions.ANCHOR_RATIOS = (0.33, 0.5, 1, 2, 3)
 dataset.noaa_lions.ANCHOR_SCALES = (2, 4, 8, 16, 32)
