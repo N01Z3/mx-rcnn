@@ -8,7 +8,7 @@ COLOR = ['r', 'g', 'b', 'c', 'k',  'y', 'navy', 'peru']
 acs = ['RPNAcc', 'RCNNAcc']
 lss = ['RPNLogLoss', 'RCNNLogLoss']
 
-with open('model/log') as f:
+with open('model/1800x_log') as f:
     content = f.readlines()
 content = [x.strip('\n') for x in content]
 
