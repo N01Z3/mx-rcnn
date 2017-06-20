@@ -24,6 +24,7 @@ def test_rcnn(network, dataset, image_set, root_path, dataset_path,
     # load symbol and testing data
     if has_rpn:
         sym = eval('get_' + network + '_test')(num_classes=config.NUM_CLASSES, num_anchors=config.NUM_ANCHORS)
+        print image_set, root_path, dataset_path
         imdb = eval(dataset)(image_set, root_path, dataset_path)
         roidb = imdb.gt_roidb()
     else:

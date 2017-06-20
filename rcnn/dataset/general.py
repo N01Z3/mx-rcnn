@@ -124,6 +124,7 @@ class General(IMDB):
             x2 = np.clip(x2, a_min=0, a_max=roi_rec['width']-1)
             y2 = float(bbox.find('ymax').text) - 1
             y2 = np.clip(y2, a_min=0, a_max=roi_rec['height']-1)
+            # print(obj.find('name').text.lower().strip())
             cls = class_to_index[obj.find('name').text.lower().strip()]
             boxes[ix, :] = [x1, y1, x2, y2]
             gt_classes[ix] = cls

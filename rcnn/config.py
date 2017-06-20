@@ -35,6 +35,7 @@ config.FIXED_PARAMS_SHARED = ['conv1', 'conv2', 'conv3', 'conv4', 'conv5']
 
 # dataset related params
 config.NUM_CLASSES = 5
+config.CLASSES = ['__background__', 'adult_males', 'subadult_males', 'adult_females', 'juveniles', 'pups']
 config.SCALES = [(2000, 2000)]  # first is scale (the shorter side); second is max size
 config.ANCHOR_SCALES = (8, 16, 32)
 config.ANCHOR_RATIOS = (0.5, 1, 2)
@@ -91,7 +92,7 @@ config.TEST = edict()
 # use rpn to generate proposal
 config.TEST.HAS_RPN = True
 # size of images for each device
-config.TEST.BATCH_IMAGES = 4
+config.TEST.BATCH_IMAGES = 1
 
 # RPN proposal
 config.TEST.CXX_PROPOSAL = True
