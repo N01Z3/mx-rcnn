@@ -23,14 +23,14 @@ import copy
 os.environ['MXNET_BACKWARD_DO_MIRROR'] = '1'
 os.environ['MXNET_CUDNN_AUTOTUNE_DEFAULT'] = '0'
 
-epoch = 60
+epoch = 10
 thresh = 0.05
 
-symbol = "model/1800/vgg"
+symbol = "model/vgg"
 network = "vgg"
 dataset = "noaa_lions"
 generate_config(network, dataset)
-with open("/home/aakuzin/dataset/noaa_sealines/Val.txt") as f:
+with open("data/Val.txt") as f:
     val = map(lambda x: os.path.join(default.dataset_path, "images", x.strip()), f.readlines())
 ims = [cv2.imread(i) for i in val[:]]
 print ims
