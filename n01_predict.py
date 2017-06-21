@@ -23,10 +23,10 @@ import copy
 os.environ['MXNET_BACKWARD_DO_MIRROR'] = '1'
 os.environ['MXNET_CUDNN_AUTOTUNE_DEFAULT'] = '0'
 
-epoch = 60
+epoch = 4
 thresh = 0.05
 
-symbol = "model/1800/vgg"
+symbol = "model/vgg"
 network = "vgg"
 dataset = "noaa_lions"
 generate_config(network, dataset)

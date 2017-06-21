@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 FOLDER = '/home/aakuzin/dataset/noaa_sealines/images_/'
+FOLDER = '/home/n01z3/dataset/noaa_sealions/images/'
+
 COLOR = ['r', 'g', 'b', 'c', 'k', 'y', 'navy', 'peru']
 
 d = {'r': 'adult_males',
@@ -57,8 +59,8 @@ def convert_files():
 
 
 def make_txt():
-    out = open('data/Train_ternaus.txt', 'w')
-    fns = glob.glob('data/annotations/*xml')
+    out = open('data/tiles.txt', 'w')
+    fns = glob.glob('data/anno_tiles/*xml')
 
     for fn in fns:
         out.write(fn.split('/')[-1].replace('xml', 'jpg\n'))
@@ -68,6 +70,7 @@ def make_txt():
 
 def show_bb():
     fn = glob.glob('data/annotations/11.xml')[-1]
+    fn = glob.glob('data/anno_tiles/0_0_1.xml')[-1]
     n = os.path.basename(fn)[:-4]
 
     with open(fn) as fd:
@@ -94,7 +97,8 @@ def show_bb():
         print xc, yc, w, h, label
 
         rect = patches.Rectangle((xc, yc), w, h,
-                                 linewidth=1, edgecolor='r', facecolor='none')
+                                 linewidth=1, edgecolor=anim.get(label), facecolor='none')
+
         ax.add_patch(rect)
 
     plt.show()
@@ -109,3 +113,4 @@ def calc_sz():
 
 if __name__ == '__main__':
     convert_files()
+    show_bb()

@@ -26,14 +26,17 @@ os.environ['MXNET_CUDNN_AUTOTUNE_DEFAULT'] = '0'
 epoch = 10
 thresh = 0.05
 
+epoch = 50
+thresh = 0.1
+
 symbol = "model/vgg"
 network = "vgg"
 dataset = "noaa_lions"
 generate_config(network, dataset)
-with open("data/Val.txt") as f:
+with open("/home/n01z3/dataset/noaa_sealions/Val.txt") as f:
     val = map(lambda x: os.path.join(default.dataset_path, "images", x.strip()), f.readlines())
 ims = [cv2.imread(i) for i in val[:]]
-print ims
+
 
 def predict():
     name = "{}/cache/{}_general_val_detections_val_{}.pkl".format(default.dataset_path, network, epoch)
@@ -41,7 +44,7 @@ def predict():
         with open(name, 'rb') as fid:
             all_boxes = cPickle.load(fid)
     else:
-        all_boxes = test_predict(network, symbol, epoch, dataset, ims, stride=600, threshold=thresh)
+        all_boxes = test_predict(network, symbol, epoch, dataset, ims, stride=700, threshold=thresh)
 
     return all_boxes
 
