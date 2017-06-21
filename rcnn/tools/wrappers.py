@@ -104,7 +104,7 @@ def test_predict(network, symbol, epoch, dataset, ims, stride, threshold=0.7, te
             data_shapes = [('data', im_array.shape), ('im_info', im_info.shape)]
             data_batch = mx.io.DataBatch(data=data, label=None, provide_data=data_shapes, provide_label=None)
             scores, boxes, data_dict = im_detect(predictor, data_batch, ["data", "im_info"], 1)
-
+            print(scores)
             for j in range(1, config.NUM_CLASSES):
                 indexes = np.where(scores[:, j] > threshold)[0]
                 cls_scores = scores[indexes, j, np.newaxis]
@@ -130,7 +130,7 @@ def test_predict(network, symbol, epoch, dataset, ims, stride, threshold=0.7, te
     with open(det_file, 'wb') as f:
         cPickle.dump(all_boxes, f, protocol=cPickle.HIGHEST_PROTOCOL)
     # boxes_this_image = [[]] + [all_boxes[j][0] for j in range(1, config.NUM_CLASSES)]
-
+    print(all_boxes)
     return all_boxes
 
 
